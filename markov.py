@@ -83,7 +83,7 @@ if __name__ == "__main__":
     parser.add_argument("-db", "--database", help="The name of the database", action="store")
     parser.add_argument("-minc", "--min-characters", type=int, default=0, help="The minimum amount of characters to generate", action="store")
     parser.add_argument("-maxc", "--max-characters", type=int, default=256, help="The maximum amount of characters to generate", action="store")
-    parser.add_argument("-dbs", "--list-databases", help="List the available databases", action="store")
+    parser.add_argument("-dbs", "--list-databases", help="List the available databases", action="store_true")
     args = parser.parse_args()
 
     if args.list_databases:
