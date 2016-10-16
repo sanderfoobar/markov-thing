@@ -51,4 +51,3 @@ class Sql:
     
     def delete_words_sql(self):
         return 'DELETE FROM ' + self.WORD_TABLE_NAME
-        

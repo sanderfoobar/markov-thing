@@ -4,11 +4,11 @@ import argparse
 import sqlite3
 import codecs
 import os
-from db import Db
-from gen import Generator
-from parse import Parser
-from sql import Sql
-from rnd import Rnd
+from markov_thing.db import Db
+from markov_thing.gen import Generator
+from markov_thing.parse import Parser
+from markov_thing.sql import Sql
+from markov_thing.rnd import Rnd
 
 
 class MarkovText:
@@ -75,11 +75,12 @@ class MarkovText:
 def json_err(msg):
     return {"error": msg}
 
-if __name__ == "__main__":
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mode", help="mode", action="store")
     parser.add_argument("-d", "--depth", type=int, help="A numeric value (minimum 2) which determines how many of the previous words are used to select the next word. Normally a depth of 2 is used, meaning that each word is selected based only on the previous one. The larger the depth value, the more similar the generated sentences will be to those appearing in the source text. Beyond a certain depth the generated sentences will be identical to those appearing in the source.", default=2, action="store")
-    parser.add_argument("-i", "--input-file", help="The location of the source text file when running in mode \"parse\".", action="store")
+    parser.add_argument("-i", "--input-file", help="The (full) location of the source text file when running in mode \"parse\".", action="store")
     parser.add_argument("-db", "--database", help="The name of the database", action="store")
     parser.add_argument("-minc", "--min-characters", type=int, default=0, help="The minimum amount of characters to generate", action="store")
     parser.add_argument("-maxc", "--max-characters", type=int, default=256, help="The maximum amount of characters to generate", action="store")
@@ -107,6 +108,7 @@ if __name__ == "__main__":
                                     maxc=max_characters)
 
         sys.stdout.write(json.dumps({"generated": generated}))
+        sys.exit()
 
     if args.mode == "parse":
         input_file = args.input_file
@@ -119,3 +121,8 @@ if __name__ == "__main__":
         markov = MarkovText()
         markov.parse(input_file=input_file, depth=depth)
         sys.exit(0)
+
+    parser.print_help()
+
+if __name__ == "__main__":
+    main()
